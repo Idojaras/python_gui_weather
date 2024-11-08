@@ -2,11 +2,9 @@ import requests
 import json
 import os
 os.system('clear')
-<<<<<<< HEAD
 from time import sleep, strftime, gmtime
-=======
+
 import time
->>>>>>> 03a29f5 (save)
 import tkinter as tk
 import random
 import customtkinter
@@ -297,8 +295,4 @@ try:
     window.mainloop()
 except KeyboardInterrupt:
     print("Kilépés")
-<<<<<<< HEAD
     exit()
-=======
-    exit()
->>>>>>> 03a29f5 (save)
