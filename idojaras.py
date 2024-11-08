@@ -2,7 +2,11 @@ import requests
 import json
 import os
 os.system('clear')
+<<<<<<< HEAD
 from time import sleep, strftime, gmtime
+=======
+import time
+>>>>>>> 03a29f5 (save)
 import tkinter as tk
 import random
 import customtkinter
@@ -16,9 +20,9 @@ try:
     
     window = customtkinter.CTk()
     window.geometry("1000x650")
-    window.title("Időjárás")
+    window.title("Weather")
     window.resizable(0, 0)
-    label = customtkinter.CTkLabel(window, text="Írj be egy települést vagy országot", font=("Helvetica", 24))
+    label = customtkinter.CTkLabel(window, text="enter your city", font=("Helvetica", 24))
     #lat = 47.49
     #lon = 19.34
     api = "a3c3ac028697416ece9bd3c3a7c0f500"
@@ -30,7 +34,7 @@ try:
         customtkinter.set_appearance_mode("light")
         customtkinter.set_default_color_theme("light")
         text_entry = customtkinter.CTkEntry(master=window,
-                                    placeholder_text="Település / Ország",
+                                    placeholder_text="city / country",
                                     width=200,
                                     height=20,
                                     font=("Helvetica", 18),
@@ -133,7 +137,7 @@ try:
                                     height=32,
                                     border_width=0,
                                     corner_radius=10,
-                                    text="Sötét",
+                                    text="Dark",
                                     hover_color="lightblue",
                                     command=dark)
 
@@ -149,7 +153,7 @@ try:
 
     history.place(relx=0, rely=0)
     text_entry = customtkinter.CTkEntry(master=window,
-                                    placeholder_text="Település / Ország",
+                                    placeholder_text="city / country",
                                     width=200,
                                     height=20,
                                     font=("Helvetica", 18),
@@ -164,26 +168,26 @@ try:
         varos = text_entry.get()
         lekerdez = requests.get(f'https://api.openweathermap.org/data/2.5/weather?q={varos}&appid=a3c3ac028697416ece9bd3c3a7c0f500&units=metric')
         jsonformatum = json.loads(lekerdez.text)
-        message = customtkinter.CTkLabel(window, text=f"Város: {jsonformatum['name']}", font=("Helvetica", 18))
+        message = customtkinter.CTkLabel(window, text=f"City: {jsonformatum['name']}", font=("Helvetica", 18))
         void = tk.Label(window, text=f"")
-        tempareture = customtkinter.CTkLabel(window, text=f"A jelenlegi hőmérséklet: {jsonformatum['main']['temp']} °C", font=("Helvetica", 18))
-        tempareture_feels = customtkinter.CTkLabel(window, text=f"A jelenlegi hőérzet: {jsonformatum['main']['feels_like']} °C", font=("Helvetica", 18))
+        tempareture = customtkinter.CTkLabel(window, text=f"The current temperature: {jsonformatum['main']['temp']} °C", font=("Helvetica", 18))
+        tempareture_feels = customtkinter.CTkLabel(window, text=f"The current feeling of heat: {jsonformatum['main']['feels_like']} °C", font=("Helvetica", 18))
         if jsonformatum['weather'][0]['description'] == "clear sky":
-            sky = customtkinter.CTkLabel(window, text=f"Az ég tiszta", font=("Helvetica", 18))
+            sky = customtkinter.CTkLabel(window, text=f"The sky is clear", font=("Helvetica", 18))
         if jsonformatum['weather'][0]['description'] == "few clouds":
-            sky = customtkinter.CTkLabel(window, text=f"Néhány felhő van az égen", font=("Helvetica", 18))
+            sky = customtkinter.CTkLabel(window, text=f"Some clouds in the sky", font=("Helvetica", 18))
         else:
-            sky = customtkinter.CTkLabel(window, text=f"Az ég: {jsonformatum['weather'][0]['description']}", font=("Helvetica",18))
+            sky = customtkinter.CTkLabel(window, text=f"The sky: {jsonformatum['weather'][0]['description']}", font=("Helvetica",18))
         
         if jsonformatum['wind']['speed'] == 0:
-            wind = customtkinter.CTkLabel(window, text=f"Jelenleg nincs szél", font=("Helvetica", 18))
+            wind = customtkinter.CTkLabel(window, text=f"Currently no wind", font=("Helvetica", 18))
         else:
-            wind = customtkinter.CTkLabel(window, text=f"A szél sebessége: {jsonformatum['wind']['speed']} m/s", font=("Helvetica", 18))
-        humadity = customtkinter.CTkLabel(window, text=f"A jelenlegi páratartartalom: {jsonformatum['main']['humidity']} %", font=("Helvetica", 18))
+            wind = customtkinter.CTkLabel(window, text=f"Wind speed: {jsonformatum['wind']['speed']} m/s", font=("Helvetica", 18))
+        humadity = customtkinter.CTkLabel(window, text=f"The current humidity: {jsonformatum['main']['humidity']} %", font=("Helvetica", 18))
         if jsonformatum['cod'] == 404:
-            print("Adj meg létező várost")
+            print("Enter an existing city")
         if KeyError == 'name':
-            print("Adj meg létező várost")
+            print("Enter an existing city")
         message.pack()
         message.place(relx=0.1, rely=0.2)
         #void.pack()
@@ -236,7 +240,7 @@ try:
                                     height=32,
                                     border_width=0,
                                     corner_radius=10,
-                                    text="Eltüntetés",
+                                    text="hide",
                                     hover_color="lightblue",
                                     command=remover)
         hider.pack
@@ -249,7 +253,7 @@ try:
                                     height=32,
                                     border_width=0,
                                     corner_radius=10,
-                                    text="Keresés",
+                                    text="Search",
                                     hover_color="lightblue",
                                     command=submit_input)
 
@@ -285,7 +289,7 @@ try:
                                     height=32,
                                     border_width=0,
                                     corner_radius=10,
-                                    text="Megjelenítés térképen",
+                                    text="Show on the map",
                                     hover_color="lightblue",
                                     command=mapopen)
     mapbtn.place(relx=0.7, rely=0.2)
@@ -293,4 +297,8 @@ try:
     window.mainloop()
 except KeyboardInterrupt:
     print("Kilépés")
+<<<<<<< HEAD
     exit()
+=======
+    exit()
+>>>>>>> 03a29f5 (save)
