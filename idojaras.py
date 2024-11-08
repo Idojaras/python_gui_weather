@@ -1,15 +1,18 @@
 import requests
 import json
 import os
-os.system('cls')
-import time
+os.system('clear')
+from time import sleep, strftime, gmtime
 import tkinter as tk
 import random
 import customtkinter
 import tkintermapview
+import sqlite3
+import datetime
 
 
 try:
+    
     window = customtkinter.CTk()
     window.geometry("1000x650")
     window.title("Időjárás")
@@ -40,6 +43,20 @@ try:
         customtkinter.set_appearance_mode("dark")
         customtkinter.set_default_color_theme("dark-blue")
 
+    def history():
+        gtime = ""
+        con = sqlite3.connect("weather.db")
+        cur = con.cursor()
+        cur.execute("SELECT time FROM weather;")
+        times = cur.fetchall()
+        for time in times:
+            print(f"Mentett idők: {time}")
+        #print(times)
+        cur.execute("SELECT * FROM weather;")
+        citys = cur.fetchone()
+        print(citys)
+        
+        print(f"\n{gtime}")
 
     """light = customtkinter.CTkButton(master=window,
                                     width=120,
@@ -62,6 +79,16 @@ try:
                                     command=dark)
 
     dark.place(relx=0.14, rely=0)
+    history = customtkinter.CTkButton(master=window,
+                                    width=120,
+                                    height=32,
+                                    border_width=0,
+                                    corner_radius=10,
+                                    text="Lementett előzmények",
+                                    hover_color="lightblue",
+                                    command=history)
+
+    history.place(relx=0.1, rely=0)
     text_entry = customtkinter.CTkEntry(master=window,
                                     placeholder_text="Település / Ország",
                                     width=200,
@@ -72,6 +99,7 @@ try:
                                     placeholder_text_color="darkblue",
                                     fg_color=("blue", "lightblue"),
                                     state="normal")
+
 
     def submit_input():
         varos = text_entry.get()
@@ -110,6 +138,31 @@ try:
         wind.place(relx=0.1, rely=0.7)
         humadity.pack()
         humadity.place(relx=0.1, rely=0.8)
+        
+        def save_data():
+            con = sqlite3.connect("weather.db")
+            cur = con.cursor()
+            nowtime = strftime("%m-%d || %H:%M:%S", gmtime())
+            try:
+                cur.execute("CREATE TABLE weather(time ,city, temp, feels_like, sky_description, wind_speed, humidity)")
+            except:
+                pass
+            ins = cur.execute(f"insert into weather(time, city, temp, feels_like, sky_description, wind_speed, humidity) values ('{nowtime}','{jsonformatum['name']}','{jsonformatum['main']['temp']}', '{jsonformatum['main']['feels_like']}', '{jsonformatum['weather'][0]['description']}', '{jsonformatum['wind']['speed']}', '{jsonformatum['main']['humidity']}')")
+            con.commit()
+            cur.execute("SELECT city FROM weather;")
+            name = cur.fetchone()
+            print(name)
+        save = customtkinter.CTkButton(master=window,
+                                    width=120,
+                                    height=32,
+                                    border_width=0,
+                                    corner_radius=10,
+                                    text="Adatok mentése!",
+                                    hover_color="lightblue",
+                                    command=save_data)
+        save.place(relx=0.14, rely=0.1)
+        
+        
         def remover():
             humadity.place_forget()
             message.place_forget()
@@ -181,4 +234,5 @@ try:
 
     window.mainloop()
 except KeyboardInterrupt:
-    pass
+    print("Kilépés")
+    exit()
